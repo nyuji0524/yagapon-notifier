@@ -330,6 +330,12 @@ export function createNotifyRouter(
             section,
             appliedAt,
             updatedBy,
+            committeeRole,
+            bureau,
+            grade,
+            discordUserId,
+            supportUserExists,
+            status,
           } = payload.data;
 
           if (!event || !eventName || !applicant) {
@@ -361,6 +367,11 @@ export function createNotifyRouter(
             ['data.section', section],
             ['data.appliedAt', appliedAt],
             ['data.updatedBy', updatedBy],
+            ['data.committeeRole', committeeRole],
+            ['data.bureau', bureau],
+            ['data.grade', grade],
+            ['data.discordUserId', discordUserId],
+            ['data.status', status],
           ];
 
           const invalidField = optionalStringFields.find(
@@ -373,6 +384,18 @@ export function createNotifyRouter(
               requestId,
               400,
               `${invalidField[0]} must be a string`
+            );
+          }
+
+          if (
+            supportUserExists !== undefined &&
+            typeof supportUserExists !== 'boolean'
+          ) {
+            return sendClientError(
+              res,
+              requestId,
+              400,
+              'data.supportUserExists must be a boolean'
             );
           }
 
